@@ -62,9 +62,7 @@ export class Auth2Service {
         this.matSnackBar.open(SNACKBAR_TITLE.INFO,'utilisateur  reconnu',SNACKBAR_CONF);
         return Observable.of(user);
       }).catch(error => {
-        this.matSnackBar.open(SNACKBAR_TITLE.ERROR,'utilisateur non reconnu',SNACKBAR_CONF);
-        this.subject.next(new Utilisateur());
-        this.loadingService.announceLoading(false);
+        this.logout();
         return Observable.of(error);
       });
   }
@@ -88,6 +86,7 @@ export class Auth2Service {
 
   logout() {
     localStorage.clear();
+    this.matSnackBar.open(SNACKBAR_TITLE.ERROR,'utilisateur non reconnu',SNACKBAR_CONF);
 
     if (this.subject) {
       this.subject.next(new Utilisateur());
