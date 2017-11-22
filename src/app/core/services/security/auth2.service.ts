@@ -57,18 +57,18 @@ export class Auth2Service {
 
     const headers = new HttpHeaders({'Authorization': 'Basic ' + btoa('gedhhapp:mfsrvl')});
 
-    //this.loadingService.announceLoading(true);
+    this.loadingService.announceLoading(true);
 
     return this.http.post('gedhh/oauth/token', params, {headers: headers})
       .switchMap(token => {
         const user = this.createUserFromToken(token);
         this.subjectUser.next(user);
-       // this.loadingService.announceLoading(false);
+        this.loadingService.announceLoading(false);
         return Observable.of(user);
       }).catch(error => {
         this.logout();
         this.matSnackBar.open(SNACKBAR_TITLE.INFO, 'utilisateur non reconnu', SNACKBAR_CONF);
-       // this.loadingService.announceLoading(false);
+        this.loadingService.announceLoading(false);
         return Observable.of(error);
       });
   }
