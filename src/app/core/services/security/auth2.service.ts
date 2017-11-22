@@ -10,35 +10,40 @@ import {Router} from '@angular/router';
 import {UserHasRight} from './user-has-right';
 import {Credentials} from './credentials';
 import 'rxjs/add/operator/switchMap';
-import {AUTH, SNACKBAR_CONF, SNACKBAR_TITLE} from '../../constants';
+import {AUTH, SECURITY, SNACKBAR_CONF, SNACKBAR_TITLE} from '../../constants';
 import {MatSnackBar} from '@angular/material';
+import * as _ from 'lodash';
 
 @Injectable()
 export class Auth2Service {
 
   private _utilisateur: Utilisateur;
 
-  private subject = new BehaviorSubject<Utilisateur>(this.createUserFromToken());
+  private subjectUser = new BehaviorSubject<Utilisateur>(this.createUserFromToken());
 
-  user$: Observable<Utilisateur> = this.subject.asObservable();
+  user$: Observable<Utilisateur> = this.subjectUser.asObservable();
 
   isLoggedIn$: Observable<boolean> = this.user$
     .map(user => !!(user));
+
+  isAdmin$: Observable<boolean> = this.user$
+    .map(user => this.hasRole(user, SECURITY.ROLES.ROLEADMIN));
+
+  isUtilisateur$: Observable<boolean> = this.user$
+    .map(user => this.hasRole(user, SECURITY.ROLES.ROLEUSER));
 
   constructor(private http: HttpClient,
               private utils: UtilsService,
               private jwtHelper: JwtHelper,
               private loadingService: LoadingService,
-              private matSnackBar : MatSnackBar,
+              private matSnackBar: MatSnackBar,
               private router: Router) {
   }
 
-  hasFeature(user, userHasRight: UserHasRight): boolean {
+  hasRole(user: Utilisateur, role: string): boolean {
     if (user) {
-      const roleArr = user.roles.filter(item => item === userHasRight.role);
-      if (roleArr && roleArr.length > 0) {
-        return true;
-      }
+      const roleArr = user.roles.filter(item => item === role);
+      return !_.isEmpty(roleArr);
     }
     return false;
   }
@@ -52,17 +57,18 @@ export class Auth2Service {
 
     const headers = new HttpHeaders({'Authorization': 'Basic ' + btoa('gedhhapp:mfsrvl')});
 
-    this.loadingService.announceLoading(true);
+    //this.loadingService.announceLoading(true);
 
     return this.http.post('gedhh/oauth/token', params, {headers: headers})
       .switchMap(token => {
         const user = this.createUserFromToken(token);
-        this.subject.next(user);
-        this.loadingService.announceLoading(false);
-        this.matSnackBar.open(SNACKBAR_TITLE.INFO,'utilisateur  reconnu',SNACKBAR_CONF);
+        this.subjectUser.next(user);
+       // this.loadingService.announceLoading(false);
         return Observable.of(user);
       }).catch(error => {
         this.logout();
+        this.matSnackBar.open(SNACKBAR_TITLE.INFO, 'utilisateur non reconnu', SNACKBAR_CONF);
+       // this.loadingService.announceLoading(false);
         return Observable.of(error);
       });
   }
@@ -86,10 +92,9 @@ export class Auth2Service {
 
   logout() {
     localStorage.clear();
-    this.matSnackBar.open(SNACKBAR_TITLE.ERROR,'utilisateur non reconnu',SNACKBAR_CONF);
 
-    if (this.subject) {
-      this.subject.next(new Utilisateur());
+    if (this.subjectUser) {
+      this.subjectUser.next(undefined);
     }
 
     this.redirectToLoginPage();
@@ -100,30 +105,28 @@ export class Auth2Service {
    * @param data
    * @returns {UtilisateurDTO}
    */
-  private  createUserFromToken(data ?: any) {
+  private createUserFromToken(data ?: any) {
     if (data) {
       localStorage.setItem(AUTH.token, data.access_token);
       this.utils.createHeaders();
     }
 
-    // this._utilisateur = _.cloneDeep(ANONYMOUS_USER);
-    this._utilisateur = new Utilisateur();
 
     try {
       const token: any = this.jwtHelper.decodeToken(localStorage.getItem(AUTH.token));
-      console.log('token',token);
-      this._utilisateur.username = token.user_name;
-      this._utilisateur.roles = token.authorities;
-      this._utilisateur.prenom = token.prenom;
-      this._utilisateur.nom = token.nom;
+      let utilisateur = new Utilisateur();
+      utilisateur.username = token.user_name;
+      utilisateur.roles = token.authorities;
+      utilisateur.prenom = token.prenom;
+      utilisateur.nom = token.nom;
+
+      return utilisateur;
 
     } catch (e) {
-      console.error('corrupted user', e);
       // user not recognized
       this.logout();
+      return undefined;
     }
-
-    return this._utilisateur;
   }
 
 
@@ -134,7 +137,6 @@ export class Auth2Service {
   set utilisateur(value: Utilisateur) {
     this._utilisateur = value;
   }
-
 
 
 }

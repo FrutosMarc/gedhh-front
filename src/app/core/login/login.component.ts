@@ -5,7 +5,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {UtilsService} from '../utils.service';
 import {Auth2Service} from '../services/security/auth2.service';
 import {Credentials} from '../services/security/credentials';
-import {HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {AUTH} from '../constants';
 
 @Component({
@@ -18,21 +18,29 @@ export class LoginComponent implements OnInit, OnDestroy {
   private subjectError = new BehaviorSubject<string>('');
   errorMsg$: Observable<string> = this.subjectError.asObservable();
   loading$: Observable<boolean>;
-  user$ =this.auth2Svc.user$;
+  user$ = this.auth2Svc.user$;
 
   subLogin: Subscription;
 
   username: string;
   password: string;
+  hide: boolean = true;
+  subBgImg : Subscription;
+  bgImg : string;
 
   constructor(private utils: UtilsService,
-
+              private http: HttpClient,
               private auth2Svc: Auth2Service) {
   }
 
   ngOnInit(): void {
 
+    this.subBgImg = this.http.get<any>('HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US', this.utils.options).subscribe(value => {
+      let obj: any = value;
 
+      this.bgImg= 'url(http://www.bing.com' + obj.images[0].url + ') no-repeat';
+      document.getElementById('loginform').style.background = this.bgImg;
+    });
   }
 
   login() {

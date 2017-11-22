@@ -5,8 +5,18 @@
       "protocol": "http:",
       "port": 80
     },
-    "secure": false,
     "changeOrigin": true,
+    "secure": false,
+    "logLevel": "info"
+  },
+  "/HPImageArchive.aspx":{
+    "target":  {
+      "host": "www.bing.com",
+      "protocol": "http:",
+      "port": 80
+    },
+    "changeOrigin": true,
+    "secure": false,
     "logLevel": "info"
   }
 }

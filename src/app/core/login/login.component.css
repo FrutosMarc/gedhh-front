@@ -1,0 +1,17 @@
+.login-window{
+
+margin:auto;
+  width: 400px;
+}
+
+.login-container{
+  height: 100vh;
+}
+
+.spacer{
+  height:10em;
+}
+
+.full-width{
+  width: 100%;
+}

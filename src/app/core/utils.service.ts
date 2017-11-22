@@ -10,7 +10,7 @@ import {AUTH} from './constants';
 @Injectable()
 export class UtilsService {
 
-  private options;
+  private _options;
   constructor(private http: HttpClient,
               private loadingSvc: LoadingService,
               private titleSvc: Title,
@@ -26,12 +26,21 @@ export class UtilsService {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('Authorization', 'Bearer ' + localStorage.getItem(AUTH.token));
-    this.options = {headers: headers};
+    this._options = {headers: headers};
   }
 
   unsubscribe(sub: any) {
     if (sub) {
       sub.unsubscribe();
     }
+  }
+
+
+  get options() {
+    return this._options;
+  }
+
+  set options(value) {
+    this._options = value;
   }
 }

@@ -1,2 +1,35 @@
-<router-outlet></router-outlet>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <a class="navbar-brand" href="#">GED HH</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+      <ng-container *ngIf="isAdmin$ | async">
+        <li class="nav-item" >
+          <a class="nav-link" href="#">Administration</a>
+        </li>
+      </ng-container>
+    </ul>
+      <form class="form-inline mt-2 mt-md-0" >
+        <ng-container *ngIf="user$ | async as user">
+        <label class="user-welcome">{{user.prenom}}&nbsp;{{user.nom}}</label>
+        </ng-container>
+        <!--<input class="form-control mr-sm-2" type="text" placeholder="Rechercher..." aria-label="Search">-->
+        <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Recherche</button>-->
+        <!--<button mat-mini-fab>Basic</button>-->
+        <ng-container *ngIf="isLoggedIn$ | async">
+        <button type="button" class="btn btn-secondary" title="Déconnexion" (click)="logout()" ><i class="fa fa-sign-out"></i></button>
+        </ng-container>
+      </form>
+
+  </div>
+</nav>
+
+<div class="content">
+  <app-loading></app-loading>
+  <router-outlet></router-outlet>
+</div>
+
 
