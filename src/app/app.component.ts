@@ -1,10 +1,13 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {Auth2Service} from './core/services/security/auth2.service';
-import {HttpClient} from '@angular/common/http';
+
 import {UtilsService} from './core/utils.service';
-import {Subscription} from 'rxjs/Subscription';
 import {RoutemapService} from './core/services/routemap.service';
+import {Parametre} from './core/dtos/parametre';
+import {ResponseSupplier} from './core/suppliers/response-supplier';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: "app-root",
@@ -12,7 +15,7 @@ import {RoutemapService} from './core/services/routemap.service';
   styleUrls: ['./app.component.css'],
 
 })
-export class AppComponent implements OnInit, AfterViewInit , OnDestroy {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   title = 'Gestion Electronique Documentaire';
   isAdmin$;
@@ -22,7 +25,7 @@ export class AppComponent implements OnInit, AfterViewInit , OnDestroy {
 
   constructor(public auth2Svc: Auth2Service, private titleSvc: Title, private http: HttpClient,
               private  elementRef: ElementRef,
-              public routeMapSvc : RoutemapService,
+              public routeMapSvc: RoutemapService,
               private utils: UtilsService) {
   }
 
@@ -32,8 +35,11 @@ export class AppComponent implements OnInit, AfterViewInit , OnDestroy {
     this.user$ = this.auth2Svc.user$;
     this.isLoggedIn$ = this.auth2Svc.isLoggedIn$;
 
-    this.titleSvc.setTitle(this.title);
-
+    this.http.get<ResponseSupplier<Parametre>>('gedhh/parametres/title', this.utils.options)
+      .subscribe(data => {
+        let rs: any = data;
+        this.titleSvc.setTitle(rs.one.valeur);
+      });
   }
 
   logout() {
