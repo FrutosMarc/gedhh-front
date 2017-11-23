@@ -38,7 +38,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.http.get<ResponseSupplier<Parametre>>('gedhh/parametres/title')
       .subscribe(data => {
         let rs: any = data;
-        this.titleSvc.setTitle(rs.one.valeur);
+        this.title =rs.one.valeur;
+        this.titleSvc.setTitle(this.title);
       });
   }
 
