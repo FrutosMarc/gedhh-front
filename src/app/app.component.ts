@@ -4,6 +4,7 @@ import {Auth2Service} from './core/services/security/auth2.service';
 import {HttpClient} from '@angular/common/http';
 import {UtilsService} from './core/utils.service';
 import {Subscription} from 'rxjs/Subscription';
+import {RoutemapService} from './core/services/routemap.service';
 
 @Component({
   selector: "app-root",
@@ -13,17 +14,15 @@ import {Subscription} from 'rxjs/Subscription';
 })
 export class AppComponent implements OnInit, AfterViewInit , OnDestroy {
 
-
   title = 'Gestion Electronique Documentaire';
   isAdmin$;
   isUser$;
   user$;
   isLoggedIn$;
 
-
-
   constructor(public auth2Svc: Auth2Service, private titleSvc: Title, private http: HttpClient,
               private  elementRef: ElementRef,
+              public routeMapSvc : RoutemapService,
               private utils: UtilsService) {
   }
 
@@ -34,7 +33,6 @@ export class AppComponent implements OnInit, AfterViewInit , OnDestroy {
     this.isLoggedIn$ = this.auth2Svc.isLoggedIn$;
 
     this.titleSvc.setTitle(this.title);
-
 
   }
 

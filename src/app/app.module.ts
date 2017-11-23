@@ -8,6 +8,7 @@ import localeFr from '@angular/common/locales/fr';
 import {AppRoutingModule} from './app-routing.module';
 import {LoginComponent} from './core/login/login.component';
 import {MonbureauModule} from './monbureau/monbureau.module';
+import {AdministrationModule} from './administration/administration.module';
 
 // Angular 5 new locale impl
 registerLocaleData(localeFr);
@@ -26,7 +27,8 @@ registerLocaleData(localeFr);
     AppRoutingModule,
 
     // FEATURES
-    MonbureauModule
+    MonbureauModule,
+    AdministrationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

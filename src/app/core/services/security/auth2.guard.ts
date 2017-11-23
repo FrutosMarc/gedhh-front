@@ -22,7 +22,6 @@ export class Auth2Guard implements CanActivate, CanActivateChild, OnDestroy {
   canActivate(next: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-    console.log('user',this.user);
     this.storeRouteToActivate(next.data, state);
 
     if (this.auth2Svc.hasRole(this.user,next.data.role)) {

@@ -14,6 +14,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoadingComponent} from './loading/loading.component';
+import {RoutemapService} from './services/routemap.service';
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import {LoadingComponent} from './loading/loading.component';
     Auth2Service,
     Auth2Guard,
     LoadingService,
+    RoutemapService
   ]
 })
 export class CoreModule {

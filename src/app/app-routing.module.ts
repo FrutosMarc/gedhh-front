@@ -10,6 +10,7 @@ export const appRoutes: Routes = [
     redirectTo: 'monbureau',
     pathMatch: 'full',
   },
+
   {path: 'login', component: LoginComponent}
 ];
 
