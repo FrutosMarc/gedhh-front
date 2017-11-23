@@ -1,5 +1,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+push-github.sh
+
 # compiled output
 /dist
 /tmp

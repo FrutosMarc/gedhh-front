@@ -35,7 +35,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.user$ = this.auth2Svc.user$;
     this.isLoggedIn$ = this.auth2Svc.isLoggedIn$;
 
-    this.http.get<ResponseSupplier<Parametre>>('gedhh/parametres/title', this.utils.options)
+    this.http.get<ResponseSupplier<Parametre>>('gedhh/parametres/title')
       .subscribe(data => {
         let rs: any = data;
         this.titleSvc.setTitle(rs.one.valeur);
