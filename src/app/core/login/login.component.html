@@ -1,33 +1,33 @@
-<div id="loginform" class="login-container" >
-<div class="spacer"></div>
+<div id="loginform" class="login-container">
+  <div class="spacer"></div>
   <mat-card class="login-window">
-  <form #formLogin="ngForm" (ngSubmit)="login()">
-  <mat-card-header>
-    <mat-card-title><label>GED HH</label></mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
+    <form #formLogin="ngForm" (ngSubmit)="login()">
+      <mat-card-header>
+        <mat-card-title><label>AUTHENTIFICATION</label></mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
 
-    <mat-form-field class="full-width">
-      <input matInput  name="username"
-             [(ngModel)]="username" placeholder="Identifiant" type="text" required>
-      <mat-icon matPrefix>account_circle
-      </mat-icon>
-    </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput name="username"
+                 [(ngModel)]="username" placeholder="Identifiant" type="text" required>
+          <mat-icon matPrefix>account_circle
+          </mat-icon>
+        </mat-form-field>
 
-    <mat-form-field class="full-width">
-      <input matInput   name="password"
-             [(ngModel)]="password" placeholder="Entrer votre mot de passe" [type]="hide ? 'password' : 'text'" required>
-      <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-      <mat-icon matPrefix>lock_open
-      </mat-icon>
-    </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput name="password"
+                 [(ngModel)]="password" placeholder="Entrer votre mot de passe" [type]="hide ? 'password' : 'text'"
+                 required>
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+          <mat-icon matPrefix>lock_open
+          </mat-icon>
+        </mat-form-field>
 
-  </mat-card-content>
-  <mat-card-actions>
-    <button type="submit" class="btn btn-success"><i class="fa fa-sign-in"></i>&nbsp;SE CONNECTER</button>
-  </mat-card-actions>
+          <button type="submit" mat-raised-button>SE CONNECTER</button>
 
-  </form>
-</mat-card>
+      </mat-card-content>
+
+    </form>
+  </mat-card>
 </div>
 

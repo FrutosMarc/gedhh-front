@@ -7,8 +7,8 @@ import {ModuleWithProviders, NgModule, Optional, SkipSelf} from '@angular/core';
 import {JwtHelper} from 'angular2-jwt';
 import {
   MatButtonModule, MatCardModule, MatCommonModule, MatFormFieldModule, MatIconModule, MatInputModule,
-  MatProgressBarModule,
-  MatSnackBarModule
+  MatProgressBarModule, MatSidenavModule,
+  MatSnackBarModule, MatToolbarModule
 } from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
@@ -24,9 +24,11 @@ import {RoutemapService} from './services/routemap.service';
     MatSnackBarModule,
     MatProgressBarModule,
     MatButtonModule,
+    MatSidenavModule,
     MatIconModule,
     MatCommonModule,
     MatCardModule,
+    MatToolbarModule,
     MatFormFieldModule,
     MatInputModule,
     HttpClientModule,
@@ -38,8 +40,10 @@ import {RoutemapService} from './services/routemap.service';
     MatProgressBarModule,
     MatCommonModule,
     MatButtonModule,
+    MatSidenavModule,
     MatCardModule,
     MatFormFieldModule,
+    MatToolbarModule,
     MatInputModule,
     MatIconModule,
     FormsModule,

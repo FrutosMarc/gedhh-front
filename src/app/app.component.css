@@ -1,10 +1,33 @@
-.content{
-  margin-top:50px;
+
+.user-welcome {
+  /*color:white;*/
+  white-space: nowrap;
+  width: 15em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-right: 2em;
 }
 
-.user-welcome{
-  color:white;
-  white-space: nowrap;
-  width:20em;
-  padding-right:2em;
+:host /deep/ a, a.menu-button, a.menu-button:focus, a.menu-button:hover, a.menu-button:active {
+  text-align: left;
+  text-decoration: none;
+  outline: none;
+  width:100%;
+  margin-left: 1em;
 }
+
+.sidenav{
+  width:200px;
+}
+
+.left {
+  text-align: left;
+}
+
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+
+

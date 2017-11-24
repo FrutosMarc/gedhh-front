@@ -1,44 +1,83 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-  <a class="navbar-brand" href="#">{{title}}</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+<!--<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">-->
+<!--<a class="navbar-brand" href="#">{{title}}</a>-->
+<!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"-->
+<!--aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--<span class="navbar-toggler-icon"></span>-->
+<!--</button>-->
+<!--<div class="collapse navbar-collapse" id="navbarCollapse">-->
+<!--<ul class="navbar-nav mr-auto">-->
+<!--<ng-container *ngIf="isAdmin$ | async">-->
+<!--<li class="nav-item active">-->
+<!--<a class="nav-link" routerLink="/administration/gestion-utilisateurs">Gestion des utilisateurs</a>-->
+<!--</li>-->
+<!--&lt;!&ndash;<li class="nav-item dropdown">&ndash;&gt;-->
+<!--&lt;!&ndash;<a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">&ndash;&gt;-->
+<!--&lt;!&ndash;Administration&ndash;&gt;-->
+<!--&lt;!&ndash;</a>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="dropdown-menu" aria-labelledby="navbarDropdown">&ndash;&gt;-->
+<!--&lt;!&ndash;<a class="dropdown-item" routerLink="/administration/gestion-utilisateurs">Gestion des utilisateurs</a>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="dropdown-divider"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</li>&ndash;&gt;-->
+<!--</ng-container>-->
+<!--</ul>-->
+<!--<form class="form-inline mt-2 mt-md-0" >-->
+<!--<ng-container *ngIf="user$ | async as user">-->
+<!--<label class="user-welcome">{{user.prenom}}&nbsp;{{user.nom}}</label>-->
+<!--</ng-container>-->
+<!--&lt;!&ndash;<input class="form-control mr-sm-2" type="text" placeholder="Rechercher..." aria-label="Search">&ndash;&gt;-->
+<!--&lt;!&ndash;<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Recherche</button>&ndash;&gt;-->
+<!--&lt;!&ndash;<button mat-mini-fab>Basic</button>&ndash;&gt;-->
+<!--<ng-container *ngIf="isLoggedIn$ | async">-->
+<!--<button type="button" class="btn btn-secondary" title="Déconnexion" (click)="logout()" ><i class="fa fa-sign-out"></i></button>-->
+<!--</ng-container>-->
+<!--</form>-->
+
+<!--</div>-->
+<!--</nav>-->
+
+<mat-toolbar>
+  <button  mat-icon-button (click)="openMenu(isOpenSidenav)">
+    <mat-icon *ngIf="!isOpenSidenav" >menu</mat-icon>
+    <mat-icon *ngIf="isOpenSidenav" >close</mat-icon>
   </button>
-  <div class="collapse navbar-collapse" id="navbarCollapse">
-    <ul class="navbar-nav mr-auto">
-      <ng-container *ngIf="isAdmin$ | async">
-        <li class="nav-item active">
-          <a class="nav-link" routerLink="/administration/gestion-utilisateurs">Gestion des utilisateurs</a>
-        </li>
-        <!--<li class="nav-item dropdown">-->
-          <!--<a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-            <!--Administration-->
-          <!--</a>-->
-          <!--<div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-            <!--<a class="dropdown-item" routerLink="/administration/gestion-utilisateurs">Gestion des utilisateurs</a>-->
-            <!--<div class="dropdown-divider"></div>-->
-          <!--</div>-->
-        <!--</li>-->
-      </ng-container>
-    </ul>
-      <form class="form-inline mt-2 mt-md-0" >
-        <ng-container *ngIf="user$ | async as user">
-        <label class="user-welcome">{{user.prenom}}&nbsp;{{user.nom}}</label>
-        </ng-container>
-        <!--<input class="form-control mr-sm-2" type="text" placeholder="Rechercher..." aria-label="Search">-->
-        <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Recherche</button>-->
-        <!--<button mat-mini-fab>Basic</button>-->
-        <ng-container *ngIf="isLoggedIn$ | async">
-        <button type="button" class="btn btn-secondary" title="Déconnexion" (click)="logout()" ><i class="fa fa-sign-out"></i></button>
-        </ng-container>
-      </form>
+  <span>{{title}}</span>
 
+  <span class="fill-remaining-space"></span>
+  <ng-container *ngIf="user$ | async as user">
+    <label class="user-welcome">{{user.prenom}}&nbsp;{{user.nom}}</label>
+  </ng-container>
+  <ng-container *ngIf="isLoggedIn$ | async">
+    <button type="button" class="btn btn-secondary" title="Déconnexion" (click)="logout()"><i
+      class="fa fa-sign-out"></i></button>
+  </ng-container>
+</mat-toolbar>
+
+<app-loading></app-loading>
+
+
+
+<mat-sidenav-container (backdropClick)="customBackdropClickHandler()">
+  <mat-sidenav class="sidenav"  #sidenav mode="over" >
+    <ng-container *ngIf="isUser$ | async">
+      <div>
+        <a  class="menu-button" routerLink="/monbureau" >Mon bureau</a>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="isAdmin$ | async">
+
+      <div>
+      <a class="menu-button"  routerLink="/administration/gestion-utilisateurs">Gestion des utilisateurs</a>
+      </div>
+    </ng-container>
+  </mat-sidenav>
+  <div class="my-content">
+    <router-outlet></router-outlet>
   </div>
-</nav>
+</mat-sidenav-container>
 
-<div class="content">
-  <app-loading></app-loading>
-  <router-outlet></router-outlet>
-</div>
+<!--<div class="content">-->
+
+<!--</div>-->
 
 
